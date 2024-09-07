@@ -1,0 +1,6 @@
+# github.com/grafov/m3u8 v0.12.0
+## explicit; go 1.12
+github.com/grafov/m3u8
+# gopkg.in/vansante/go-ffprobe.v2 v2.2.0
+## explicit; go 1.13
+gopkg.in/vansante/go-ffprobe.v2

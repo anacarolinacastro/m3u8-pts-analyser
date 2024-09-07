@@ -1,0 +1,4 @@
+github.com/grafov/m3u8 v0.12.0 h1:T6iTwTsSEtMcwkayef+FJO8kj+Sglr4Lh81Zj8Ked/4=
+github.com/grafov/m3u8 v0.12.0/go.mod h1:nqzOkfBiZJENr52zTVd/Dcl03yzphIMbJqkXGu+u080=
+gopkg.in/vansante/go-ffprobe.v2 v2.2.0 h1:iuOqTsbfYuqIz4tAU9NWh22CmBGxlGHdgj4iqP+NUmY=
+gopkg.in/vansante/go-ffprobe.v2 v2.2.0/go.mod h1:qF0AlAjk7Nqzqf3y333Ly+KxN3cKF2JqA3JT5ZheUGE=
