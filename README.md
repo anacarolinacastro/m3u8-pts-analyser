@@ -1,4 +1,4 @@
-# M3U8 PTS Analyzer
+# M3U8 PTS Analyser
 
 
 The main point of this program is to check the stitched segments from Google DAI and evaluate its TS time metadatas.
