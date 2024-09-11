@@ -28,15 +28,10 @@ func parseStartEndPTS(filePath string) {
 
 	for _, stream := range data.Streams {
 		if stream.CodecType == string(ffprobe.StreamVideo) {
-			// startTime, err := strconv.ParseFloat(stream.StartTime, 64)
-			// if err != nil {
-			// 	panic(err)
-			// }
-
-			fmt.Printf("pts: %d | durationTS %f", stream.StartPts, data.Format.DurationSeconds)
+			fmt.Printf("pts: %d durationTS %f", stream.StartPts, data.Format.DurationSeconds)
 		}
 	}
-	fmt.Printf(" > startTime: %fs endTime: %fs [%s]\n", data.Format.StartTimeSeconds, data.Format.DurationSeconds+data.Format.StartTimeSeconds, filepath.Base(filePath))
+	fmt.Printf(" startTime: %fs endTime: %fs [%s]\n", data.Format.StartTimeSeconds, data.Format.DurationSeconds+data.Format.StartTimeSeconds, filepath.Base(filePath))
 
 }
 
