@@ -9,12 +9,23 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 
 	"github.com/grafov/m3u8"
 	"gopkg.in/vansante/go-ffprobe.v2"
 )
+
+func getPodID(line string) string {
+	podIDRegexp := `.*/pod/([0-9]*)/profile/.*`
+	r := regexp.MustCompile(podIDRegexp)
+	match := r.FindStringSubmatch(line)
+	if len(match) > 1 {
+		return match[1]
+	}
+	return ""
+}
 
 func parseStartEndPTS(filePath string) {
 	ctx, cancelFn := context.WithTimeout(context.Background(), 5*time.Second)
@@ -96,7 +107,8 @@ func parseMediaPlaylist(playlistURL *url.URL, tmpDir, filePath string) {
 
 		urlWithoutParams := strings.Split(segmentURL.String(), "?")[0]
 		urlPath := filepath.Base(urlWithoutParams)
-		segmentfileName := fmt.Sprintf("%s/%s", tmpDir, urlPath)
+		podId := getPodID(urlWithoutParams)
+		segmentfileName := fmt.Sprintf("%s/%s-%s", tmpDir, podId, urlPath)
 
 		if segmentURL.Scheme == "" {
 			segmentURL = playlistURL.ResolveReference(segmentURL)
