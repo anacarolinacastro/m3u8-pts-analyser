@@ -18,7 +18,7 @@ import (
 )
 
 func getPodID(line string) string {
-	podIDRegexp := `.*/pod/([0-9]*)/profile/.*`
+	podIDRegexp := `.*/ad_break_id/([0-9]*)/profile/.*`
 	r := regexp.MustCompile(podIDRegexp)
 	match := r.FindStringSubmatch(line)
 	if len(match) > 1 {
@@ -39,7 +39,7 @@ func parseStartEndPTS(filePath string) {
 
 	for _, stream := range data.Streams {
 		if stream.CodecType == string(ffprobe.StreamVideo) {
-			fmt.Printf("pts: %d durationTS %f", stream.StartPts, data.Format.DurationSeconds)
+			fmt.Printf("pts: %d durationTS: %f", stream.StartPts, data.Format.DurationSeconds)
 		}
 	}
 	fmt.Printf(" startTime: %fs endTime: %fs [%s]\n", data.Format.StartTimeSeconds, data.Format.DurationSeconds+data.Format.StartTimeSeconds, filepath.Base(filePath))
