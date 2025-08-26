@@ -89,7 +89,12 @@ func parseMediaPlaylist(playlistURL *url.URL, tmpDir, filePath string) {
 
 	playlistBufioReader := bufio.NewReader(file)
 	playlist, _, _ := m3u8.DecodeFrom(playlistBufioReader, true)
-	mediapl := playlist.(*m3u8.MediaPlaylist)
+
+	mediapl, ok := playlist.(*m3u8.MediaPlaylist)
+	if !ok {
+		fmt.Printf("Error: Not a media playlist\nPlease provide a valid media playlist URL\n")
+		return
+	}
 
 	for _, segment := range mediapl.Segments {
 		if segment == nil {
