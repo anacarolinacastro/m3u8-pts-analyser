@@ -27,7 +27,7 @@ func getPodID(line string) string {
 	return ""
 }
 
-func parseStartEndPTS(filePath string) {
+func parseVideoStreamInfo(filePath string) {
 	ctx, cancelFn := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelFn()
 
@@ -39,7 +39,8 @@ func parseStartEndPTS(filePath string) {
 
 	for _, stream := range data.Streams {
 		if stream.CodecType == string(ffprobe.StreamVideo) {
-			fmt.Printf("pts: %d durationTS: %f", stream.StartPts, data.Format.DurationSeconds)
+			fmt.Printf("pts: %d durationTS: %f |", stream.StartPts, data.Format.DurationSeconds)
+			fmt.Printf(" codec: %s level: %d framerate: %s |", stream.CodecLongName, stream.Level, stream.AvgFrameRate)
 		}
 	}
 	fmt.Printf(" startTime: %fs endTime: %fs [%s]\n", data.Format.StartTimeSeconds, data.Format.DurationSeconds+data.Format.StartTimeSeconds, filepath.Base(filePath))
@@ -112,8 +113,8 @@ func parseMediaPlaylist(playlistURL *url.URL, tmpDir, filePath string) {
 
 		urlWithoutParams := strings.Split(segmentURL.String(), "?")[0]
 		urlPath := filepath.Base(urlWithoutParams)
-		podId := getPodID(urlWithoutParams)
-		segmentfileName := fmt.Sprintf("%s/%s-%s", tmpDir, podId, urlPath)
+		podID := getPodID(urlWithoutParams)
+		segmentfileName := fmt.Sprintf("%s/%s-%s", tmpDir, podID, urlPath)
 
 		if segmentURL.Scheme == "" {
 			segmentURL = playlistURL.ResolveReference(segmentURL)
@@ -123,7 +124,7 @@ func parseMediaPlaylist(playlistURL *url.URL, tmpDir, filePath string) {
 		}
 
 		downloadSegment(segmentfileName, segmentURL)
-		parseStartEndPTS(segmentfileName)
+		parseVideoStreamInfo(segmentfileName)
 	}
 }
 
